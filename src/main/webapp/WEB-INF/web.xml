@@ -12,4 +12,13 @@
     <servlet-name>pedidos</servlet-name>
     <url-pattern>/pedidos</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>validar-avaria</servlet-name>
+    <servlet-class>pt.ecl.ValidacaoAvariaServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>validar-avaria</servlet-name>
+    <url-pattern>/validar-avaria</url-pattern>
+  </servlet-mapping>
 </web-app>
