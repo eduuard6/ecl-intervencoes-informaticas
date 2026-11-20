@@ -11,7 +11,10 @@
 <body>
   <a href="<%= request.getContextPath() %>/">Página inicial</a>
   <h1>Comunicar avaria informática</h1>
-  <p>Preencha os três campos para validar o pedido.</p>
+  <p>Preencha os três campos para registar o pedido.</p>
+  <% if (request.getAttribute("erroBD") != null) { %>
+    <p class="erro" role="alert"><%= Html.escapar(request.getAttribute("erroBD")) %></p>
+  <% } %>
 
   <form method="post" action="<%= request.getContextPath() %>/validar-avaria">
     <label for="sala">Sala</label>

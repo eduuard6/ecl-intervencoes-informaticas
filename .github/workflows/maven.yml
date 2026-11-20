@@ -1,0 +1,22 @@
+name: Build Java Web App
+
+on:
+  push:
+    branches: [ main, feature/portal-ecl ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obter código
+        uses: actions/checkout@v4
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+      - name: Compilar e empacotar
+        run: mvn --batch-mode clean package
