@@ -15,9 +15,9 @@ session.removeAttribute("mensagem");
    <link rel="stylesheet" href="<%= base %>/estilo.css">
 </head>
 <body>
-<a href="<%= base %>/">Página inicial</a>
+<a href="<%= base %>/">Página inicial</a> · <a href="<%= base %>/logout">Terminar sessão</a>
 <h1>Pedidos de intervenção informática</h1>
-<p class="erro"><%= Html.escapar(request.getAttribute("erro")) %></p>
+<% if (request.getAttribute("erro") != null) { %><p class="erro" role="alert"><%= Html.escapar(request.getAttribute("erro")) %></p><% } %>
 <p class="sucesso"><%= Html.escapar(mensagem) %></p>
 
 <h2>Comunicar um problema</h2>
