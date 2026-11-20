@@ -1,0 +1,8 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.util.List,pt.ecl.CursosServlet.Curso,pt.ecl.Html" %>
+<% List<Curso> cursos=(List<Curso>)request.getAttribute("cursos");String base=request.getContextPath(); %>
+<!DOCTYPE html><html lang="pt"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Oferta formativa | ECL</title><link rel="stylesheet" href="<%=base%>/estilo.css"></head><body>
+<nav><a href="<%=base%>/">Início</a> · <a href="<%=base%>/pre-inscricao">Pré-inscrição</a></nav>
+<header class="hero"><p class="eyebrow">ESCOLA DO COMÉRCIO DE LISBOA</p><h1>Oferta formativa</h1><p>Conheça os cursos disponíveis e escolha a formação que pretende frequentar.</p></header>
+<%if(request.getAttribute("erro")!=null){%><p class="erro"><%=Html.escapar(request.getAttribute("erro"))%></p><%}%>
+<section class="cards"><%if(cursos==null||cursos.isEmpty()){%><article><h2>Oferta formativa em atualização</h2><p>Os cursos serão apresentados depois de serem inseridos na base de dados.</p></article><%}else{for(Curso c:cursos){%><article class="curso"><p class="eyebrow">FORMAÇÃO ECL</p><h2><%=Html.escapar(c.nome)%></h2><p><%=Html.escapar(c.descricao)%></p><p><strong>Nível:</strong> <%=Html.escapar(c.nivel)%></p><a class="botao" href="<%=base%>/pre-inscricao">Pré-inscrever-me</a></article><%}}%></section></body></html>
