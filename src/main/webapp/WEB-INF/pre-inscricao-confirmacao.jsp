@@ -1,0 +1,3 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="pt.ecl.Html" %>
+<!DOCTYPE html><html lang="pt"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Pré-inscrição recebida | ECL</title><link rel="stylesheet" href="<%=request.getContextPath()%>/estilo.css"></head><body><main class="confirmacao"><p class="eyebrow">ESCOLA DO COMÉRCIO DE LISBOA</p><h1>Pré-inscrição recebida!</h1><p>Obrigado, <strong><%=Html.escapar(request.getAttribute("nome"))%></strong>. Os seus dados foram registados.</p><a class="botao" href="<%=request.getContextPath()%>/">Voltar ao início</a></main></body></html>
