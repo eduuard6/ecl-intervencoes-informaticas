@@ -1,24 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
- https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+ xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
  version="6.0">
-  <servlet>
-    <servlet-name>pedidos</servlet-name>
-    <servlet-class>pt.ecl.PedidosServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>pedidos</servlet-name>
-    <url-pattern>/pedidos</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>validar-avaria</servlet-name>
-    <servlet-class>pt.ecl.ValidacaoAvariaServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>validar-avaria</servlet-name>
-    <url-pattern>/validar-avaria</url-pattern>
-  </servlet-mapping>
+  <servlet><servlet-name>pedidos</servlet-name><servlet-class>pt.ecl.PedidosServlet</servlet-class></servlet>
+  <servlet-mapping><servlet-name>pedidos</servlet-name><url-pattern>/pedidos</url-pattern></servlet-mapping>
+  <servlet><servlet-name>validar-avaria</servlet-name><servlet-class>pt.ecl.ValidacaoAvariaServlet</servlet-class></servlet>
+  <servlet-mapping><servlet-name>validar-avaria</servlet-name><url-pattern>/validar-avaria</url-pattern></servlet-mapping>
+  <servlet><servlet-name>cursos</servlet-name><servlet-class>pt.ecl.CursosServlet</servlet-class></servlet>
+  <servlet-mapping><servlet-name>cursos</servlet-name><url-pattern>/cursos</url-pattern></servlet-mapping>
+  <servlet><servlet-name>pre-inscricao</servlet-name><servlet-class>pt.ecl.PreInscricaoServlet</servlet-class></servlet>
+  <servlet-mapping><servlet-name>pre-inscricao</servlet-name><url-pattern>/pre-inscricao</url-pattern></servlet-mapping>
 </web-app>
