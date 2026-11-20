@@ -1,65 +1,50 @@
 package pt.ecl;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Set;
 
-/** Recebe, valida e encaminha o pedido de comunicação de avaria. */
 public class ValidacaoAvariaServlet extends HttpServlet {
-    private static final Set<String> TIPOS_VALIDOS =
-        Set.of("Equipamento", "Software", "Rede");
+    private static final Set<String> TIPOS_VALIDOS = Set.of("Equipamento", "Software", "Rede");
 
-    @Override
-    protected void doGet(HttpServletRequest request,
-            HttpServletResponse response)
+    @Override protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        request.getRequestDispatcher("/WEB-INF/avaria-formulario.jsp")
-            .forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/avaria-formulario.jsp").forward(request, response);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request,
-            HttpServletResponse response)
+    @Override protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-
-        String salaRecebida = request.getParameter("sala");
-        String tipoRecebido = request.getParameter("tipo");
-        String descricaoRecebida = request.getParameter("descricao");
-
-        String sala = salaRecebida == null ? "" : salaRecebida.trim();
-        String tipo = tipoRecebido == null ? "" : tipoRecebido.trim();
-        String descricao = descricaoRecebida == null
-            ? "" : descricaoRecebida.trim();
-
-        String erroSala = sala.isEmpty() ? "Indique a sala." : null;
-        String erroTipo = !TIPOS_VALIDOS.contains(tipo)
-            ? "Selecione um tipo de avaria válido." : null;
-        String erroDescricao = descricao.length() < 10
-            ? "A descrição tem de ter pelo menos 10 caracteres." : null;
+        String sala = valor(request.getParameter("sala"));
+        String tipo = valor(request.getParameter("tipo"));
+        String descricao = valor(request.getParameter("descricao"));
+        String erroSala = sala.isBlank() ? "Indique a sala." : null;
+        String erroTipo = !TIPOS_VALIDOS.contains(tipo) ? "Selecione um tipo de avaria válido." : null;
+        String erroDescricao = descricao.length() < 10 ? "A descrição tem de ter pelo menos 10 caracteres." : null;
 
         if (erroSala != null || erroTipo != null || erroDescricao != null) {
-            // Preserva os valores recebidos para o utilizador poder corrigi-los.
-            request.setAttribute("sala", salaRecebida == null ? "" : salaRecebida);
-            request.setAttribute("tipo", tipoRecebido == null ? "" : tipoRecebido);
-            request.setAttribute("descricao",
-                descricaoRecebida == null ? "" : descricaoRecebida);
-            request.setAttribute("erroSala", erroSala);
-            request.setAttribute("erroTipo", erroTipo);
-            request.setAttribute("erroDescricao", erroDescricao);
-            request.getRequestDispatcher("/WEB-INF/avaria-formulario.jsp")
-                .forward(request, response);
+            request.setAttribute("sala", sala); request.setAttribute("tipo", tipo);
+            request.setAttribute("descricao", descricao); request.setAttribute("erroSala", erroSala);
+            request.setAttribute("erroTipo", erroTipo); request.setAttribute("erroDescricao", erroDescricao);
+            request.getRequestDispatcher("/WEB-INF/avaria-formulario.jsp").forward(request, response);
             return;
         }
 
-        request.setAttribute("sala", sala);
-        request.setAttribute("tipo", tipo);
-        request.setAttribute("descricao", descricao);
-        request.getRequestDispatcher("/WEB-INF/avaria-confirmacao.jsp")
-            .forward(request, response);
+        try {
+            new Repositorio().adicionarAvaria(sala, tipo, descricao);
+            request.setAttribute("sala", sala); request.setAttribute("tipo", tipo);
+            request.setAttribute("descricao", descricao);
+            request.getRequestDispatcher("/WEB-INF/avaria-confirmacao.jsp").forward(request, response);
+        } catch (SQLException e) {
+            request.setAttribute("erroBD", "Não foi possível guardar o pedido. Confirme a ligação à base de dados.");
+            request.setAttribute("sala", sala); request.setAttribute("tipo", tipo);
+            request.setAttribute("descricao", descricao);
+            request.getRequestDispatcher("/WEB-INF/avaria-formulario.jsp").forward(request, response);
+        }
     }
+
+    private String valor(String s) { return s == null ? "" : s.trim(); }
 }
